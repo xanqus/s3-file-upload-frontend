@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import ArticleList from '../components/ArticleList';
 
 const Home = () => {
-  const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
