@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate } from '../utils';
 
 const ArticleListItem = ({ article }) => {
   const { id, title, body, createDate, updatedDate } = article;
@@ -6,7 +7,7 @@ const ArticleListItem = ({ article }) => {
     <tr>
       <th>{id}</th>
       <td>{title}</td>
-      <td>{createDate}</td>
+      <td>{formatDate(createDate)}</td>
     </tr>
   );
 };
