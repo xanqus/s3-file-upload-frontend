@@ -6,7 +6,6 @@ const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [article, setArticle] = useState({});
-  console.log(id);
   useEffect(() => {
     const getData = async () => {
       const data = await axios({

@@ -7,6 +7,7 @@ const ArticleListItem = ({ article }) => {
   const { id, title, body, createDate, updatedDate } = article;
   return (
     <tr
+      className='cursor-pointer'
       onClick={() => {
         navigate(`/detail/${id}`);
       }}
