@@ -6,6 +6,7 @@ const Write = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const formData = new FormData();
   return (
     <div className='flex flex-col max-w-5xl m-auto'>
       <button
@@ -49,9 +50,6 @@ const Write = () => {
         type='file'
         className='file-input file-input-bordered file-input-info w-96 mr-0 ml-auto mt-4'
         multiple
-        onChange={(e) => {
-          console.log(e.target.files);
-        }}
       />
       <button
         className='btn btn-outline btn-info ml-auto mr-0 mt-4 w-24'
@@ -65,15 +63,21 @@ const Write = () => {
             alert('내용을 입력해주세요.');
             return;
           }
+
+          formData.append('title', title);
+          formData.append('body', body);
           const sendData = async () => {
             const data = await axios({
               method: 'POST',
               url: 'http://localhost:8089/article',
-              data: {
-                title,
-                body,
+              data: formData,
+              formData,
+              headers: {
+                'Content-Type': 'multipart/form-data',
               },
             });
+            console.log(data);
+
             setTitle('');
             setBody('');
             if (data.status === 200) {
