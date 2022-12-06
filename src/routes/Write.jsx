@@ -50,6 +50,12 @@ const Write = () => {
         type='file'
         className='file-input file-input-bordered file-input-info w-96 mr-0 ml-auto mt-4'
         multiple
+        onChange={(e) => {
+          console.log(e.target.files.length);
+          for (let i = 0; i < e.target.files.length; i++) {
+            formData.append('files', e.target.files[i]);
+          }
+        }}
       />
       <button
         className='btn btn-outline btn-info ml-auto mr-0 mt-4 w-24'
