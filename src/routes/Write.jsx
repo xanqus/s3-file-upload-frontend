@@ -5,7 +5,6 @@ import { Editor } from '@toast-ui/react-editor';
 
 const Write = () => {
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const formData = new FormData();
   const toastRef = useRef();
@@ -43,11 +42,6 @@ const Write = () => {
       <button
         className='btn btn-outline btn-info ml-auto mr-0 mt-4 w-24'
         onClick={() => {
-          if (title.length === 0 || title == null) {
-            alert('제목을 입력해주세요.');
-            return;
-          }
-
           if (
             toastRef.current?.getInstance().getMarkdown().length === 0 ||
             toastRef.current?.getInstance().getMarkdown() == null
@@ -56,7 +50,6 @@ const Write = () => {
             return;
           }
 
-          formData.append('title', title);
           formData.append(
             'body',
             toastRef.current?.getInstance().getMarkdown()
@@ -73,7 +66,6 @@ const Write = () => {
             });
             console.log(data);
 
-            setTitle('');
             setBody('');
             if (data.status === 200) {
               alert('작성이 성공적으로 완료되었습니다.');
@@ -86,13 +78,6 @@ const Write = () => {
         }}
       >
         완료
-      </button>
-      <button
-        onClick={() => {
-          console.log(toastRef.current?.getInstance().getMarkdown());
-        }}
-      >
-        test
       </button>
     </div>
   );

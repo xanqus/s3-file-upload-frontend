@@ -34,7 +34,7 @@ const Detail = () => {
       </button>
 
       <div className='ml-auto mr-0 mt-4'>{article?.createDate}</div>
-      <div className='form-control w-full mt-8'>{article?.title}</div>
+
       <Viewer initialValue={article?.body} />
       <div className='flex w-full mt-4'>
         {article.imageList.map((image, index) => {
