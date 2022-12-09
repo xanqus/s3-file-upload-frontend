@@ -1,12 +1,14 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Viewer } from '@toast-ui/react-editor';
 
 const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getData = async () => {
       const data = await axios({
@@ -14,6 +16,7 @@ const Detail = () => {
         url: `http://localhost:8089/article/${id}`,
       });
       setArticle(data.data);
+
       setLoading(false);
       console.log(data.data);
     };
@@ -33,7 +36,7 @@ const Detail = () => {
 
       <div className='ml-auto mr-0 mt-4'>{article?.createDate}</div>
       <div className='form-control w-full mt-8'>{article?.title}</div>
-      <div className='form-control w-full mt-6'>{article?.body}</div>
+      <Viewer initialValue={article?.body} />
       <div className='flex w-full mt-4'>
         {article.imageList.map((image, index) => {
           return (
