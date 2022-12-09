@@ -16,7 +16,6 @@ const Detail = () => {
         url: `http://localhost:8089/article/${id}`,
       });
       setArticle(data.data);
-
       setLoading(false);
       console.log(data.data);
     };

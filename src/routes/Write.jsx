@@ -63,15 +63,18 @@ const Write = () => {
           }
 
           if (
-            toastRef.current?.getInstance().getHTML().length === 0 ||
-            toastRef.current?.getInstance().getHTML() == null
+            toastRef.current?.getInstance().getMarkdown().length === 0 ||
+            toastRef.current?.getInstance().getMarkdown() == null
           ) {
             alert('내용을 입력해주세요.');
             return;
           }
 
           formData.append('title', title);
-          formData.append('body', toastRef.current?.getInstance().getHTML());
+          formData.append(
+            'body',
+            toastRef.current?.getInstance().getMarkdown()
+          );
           const sendData = async () => {
             const data = await axios({
               method: 'POST',
@@ -97,6 +100,13 @@ const Write = () => {
         }}
       >
         완료
+      </button>
+      <button
+        onClick={() => {
+          console.log(toastRef.current?.getInstance().getMarkdown());
+        }}
+      >
+        test
       </button>
     </div>
   );
