@@ -1,12 +1,14 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Editor } from '@toast-ui/react-editor';
 
 const Write = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const formData = new FormData();
+  const toastRef = useRef();
   return (
     <div className='flex flex-col max-w-5xl m-auto'>
       <button
@@ -32,20 +34,15 @@ const Write = () => {
           className='input input-bordered w-full h-20'
         />
       </div>
-      <div className='form-control w-full mt-6'>
-        <label className='label'>
-          <span className='label-text'>내용을 입력해주세요</span>
-        </label>
-        <textarea
-          type='text'
-          value={body}
-          onChange={(e) => {
-            setBody(e.target.value);
-          }}
-          placeholder='내용을 입력해주세요.'
-          className='input input-bordered w-full h-96'
-        />
-      </div>
+
+      <Editor
+        initialValue='hello react editor world!'
+        previewStyle='vertical'
+        height='600px'
+        initialEditType='markdown'
+        useCommandShortcut={true}
+        ref={toastRef}
+      />
       <input
         type='file'
         className='file-input file-input-bordered file-input-info w-96 mr-0 ml-auto mt-4'
@@ -65,13 +62,16 @@ const Write = () => {
             return;
           }
 
-          if (body.length === 0 || body == null) {
+          if (
+            toastRef.current?.getInstance().getHTML().length === 0 ||
+            toastRef.current?.getInstance().getHTML() == null
+          ) {
             alert('내용을 입력해주세요.');
             return;
           }
 
           formData.append('title', title);
-          formData.append('body', body);
+          formData.append('body', toastRef.current?.getInstance().getHTML());
           const sendData = async () => {
             const data = await axios({
               method: 'POST',
