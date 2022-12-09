@@ -19,24 +19,10 @@ const Write = () => {
       >
         메인으로
       </button>
-      <div className='mt-12'>글 작성 페이지입니다.</div>
-      <div className='form-control w-full mt-8'>
-        <label className='label'>
-          <span className='label-text'>제목을 입력해주세요</span>
-        </label>
-        <input
-          type='text'
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          placeholder='제목을 입력해주세요.'
-          className='input input-bordered w-full h-20'
-        />
-      </div>
 
       <Editor
-        initialValue='hello react editor world!'
+        initialValue='# 제목을 입력해주세요
+        내용을 작성해주세요.'
         previewStyle='vertical'
         height='600px'
         initialEditType='markdown'
