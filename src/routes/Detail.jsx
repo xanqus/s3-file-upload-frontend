@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Viewer } from '@toast-ui/react-editor';
+import Prism from 'prismjs';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -17,7 +19,6 @@ const Detail = () => {
       });
       setArticle(data.data);
       setLoading(false);
-      console.log(data.data);
     };
     getData();
   }, []);
@@ -35,7 +36,11 @@ const Detail = () => {
 
       <div className='ml-auto mr-0 mt-4'>{article?.createDate}</div>
 
-      <Viewer initialValue={article?.body} />
+      <div className='text-3xl mb-12'>{article?.title}</div>
+      <Viewer
+        initialValue={article?.body}
+        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+      />
       <div className='flex w-full mt-4'>
         {article.imageList.map((image, index) => {
           return (

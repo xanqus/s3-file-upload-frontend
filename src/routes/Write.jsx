@@ -2,9 +2,12 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Editor } from '@toast-ui/react-editor';
+import Prism from 'prismjs';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 
 const Write = () => {
   const navigate = useNavigate();
+  const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const formData = new FormData();
   const toastRef = useRef();
@@ -18,15 +21,24 @@ const Write = () => {
       >
         메인으로
       </button>
+      <input
+        type='text'
+        value={title}
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+        placeholder='제목을 입력해주세요'
+        className='h-24  text-3xl'
+      />
 
       <Editor
-        initialValue='# 제목을 입력해주세요
-        내용을 작성해주세요.'
+        initialValue='내용을 작성해주세요.'
         previewStyle='vertical'
         height='600px'
         initialEditType='markdown'
         useCommandShortcut={true}
         ref={toastRef}
+        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
       />
       <input
         type='file'
@@ -50,6 +62,7 @@ const Write = () => {
             return;
           }
 
+          formData.append('title', title);
           formData.append(
             'body',
             toastRef.current?.getInstance().getMarkdown()
@@ -65,7 +78,7 @@ const Write = () => {
               },
             });
             console.log(data);
-
+            setTitle('');
             setBody('');
             if (data.status === 200) {
               alert('작성이 성공적으로 완료되었습니다.');
