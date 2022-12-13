@@ -9,6 +9,7 @@ const Write = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [imageIdList, setImageIdList] = useState([]);
   const formData = new FormData();
   const toastRef = useRef();
 
@@ -32,6 +33,14 @@ const Write = () => {
         className='h-24  text-3xl'
       />
 
+      <button
+        onClick={() => {
+          console.log(imageIdList);
+        }}
+      >
+        test
+      </button>
+
       <Editor
         initialValue='내용을 작성해주세요.'
         previewStyle='vertical'
@@ -49,11 +58,12 @@ const Write = () => {
               url: `http://localhost:8089/article/image`,
               data: formData,
             });
+            setImageIdList((prev) => prev.concat(data.data.id));
 
             // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
 
             // 2. 첨부된 이미지를 화면에 표시
-            callback(data.data, '');
+            callback(data.data.imgUrl, '');
           },
         }}
       />
