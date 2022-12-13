@@ -58,7 +58,7 @@ const Write = () => {
               url: `http://localhost:8089/article/image`,
               data: formData,
             });
-            setImageIdList((prev) => prev.concat(data.data.id));
+            setImageIdList((prev) => prev.concat(parseInt(data.data.id)));
 
             // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
 
@@ -67,17 +67,7 @@ const Write = () => {
           },
         }}
       />
-      <input
-        type='file'
-        className='file-input file-input-bordered file-input-info w-96 mr-0 ml-auto mt-4'
-        multiple
-        onChange={(e) => {
-          console.log(e.target.files.length);
-          for (let i = 0; i < e.target.files.length; i++) {
-            formData.append('files', e.target.files[i]);
-          }
-        }}
-      />
+
       <button
         className='btn btn-outline btn-info ml-auto mr-0 mt-4 w-24'
         onClick={() => {
@@ -94,6 +84,7 @@ const Write = () => {
             'body',
             toastRef.current?.getInstance().getMarkdown()
           );
+          formData.append('imageIdList', imageIdList);
           const sendData = async () => {
             const data = await axios({
               method: 'POST',
