@@ -33,14 +33,6 @@ const Write = () => {
         className='h-24  text-3xl'
       />
 
-      <button
-        onClick={() => {
-          console.log(imageIdList);
-        }}
-      >
-        test
-      </button>
-
       <Editor
         initialValue='내용을 작성해주세요.'
         previewStyle='vertical'
@@ -67,49 +59,53 @@ const Write = () => {
           },
         }}
       />
-
-      <button
-        className='btn btn-outline btn-info ml-auto mr-0 mt-4 w-24'
-        onClick={() => {
-          if (
-            toastRef.current?.getInstance().getMarkdown().length === 0 ||
-            toastRef.current?.getInstance().getMarkdown() == null
-          ) {
-            alert('내용을 입력해주세요.');
-            return;
-          }
-
-          formData.append('title', title);
-          formData.append(
-            'body',
-            toastRef.current?.getInstance().getMarkdown()
-          );
-          formData.append('imageIdList', imageIdList);
-          const sendData = async () => {
-            const data = await axios({
-              method: 'POST',
-              url: 'http://localhost:8089/article',
-              data: formData,
-              formData,
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            });
-            console.log(data);
-            setTitle('');
-            setBody('');
-            if (data.status === 200) {
-              alert('작성이 성공적으로 완료되었습니다.');
-              navigate('/');
-            } else {
-              alert('뭔가 문제가 있습니다.');
+      <div className='flex'>
+        <button className='btn btn-outline btn-info ml-auto mr-8 mt-4 w-24'>
+          임시 저장
+        </button>
+        <button
+          className='btn btn-outline btn-info mr-0 mt-4 w-24'
+          onClick={() => {
+            if (
+              toastRef.current?.getInstance().getMarkdown().length === 0 ||
+              toastRef.current?.getInstance().getMarkdown() == null
+            ) {
+              alert('내용을 입력해주세요.');
+              return;
             }
-          };
-          sendData();
-        }}
-      >
-        완료
-      </button>
+
+            formData.append('title', title);
+            formData.append(
+              'body',
+              toastRef.current?.getInstance().getMarkdown()
+            );
+            formData.append('imageIdList', imageIdList);
+            const sendData = async () => {
+              const data = await axios({
+                method: 'POST',
+                url: 'http://localhost:8089/article',
+                data: formData,
+                formData,
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+              console.log(data);
+              setTitle('');
+              setBody('');
+              if (data.status === 200) {
+                alert('작성이 성공적으로 완료되었습니다.');
+                navigate('/');
+              } else {
+                alert('뭔가 문제가 있습니다.');
+              }
+            };
+            sendData();
+          }}
+        >
+          완료
+        </button>
+      </div>
     </div>
   );
 };

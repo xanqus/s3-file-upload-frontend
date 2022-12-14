@@ -20,7 +20,7 @@ const ArticleListItem = ({ article, setArticles }) => {
         onClick={async (e) => {
           if (e.currentTarget !== e.target) {
             e.stopPropagation();
-            axios({
+            await axios({
               method: 'DELETE',
               url: `http://localhost:8089/article?id=${id}`,
             });
