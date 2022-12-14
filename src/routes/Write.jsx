@@ -26,9 +26,12 @@ const Write = () => {
       const getTmpArticle = async () => {
         const tmpArticle = await axios({
           method: 'GET',
-          url: `http://locahost:8089/article/tmp?id=${searchParams.get('id')}`,
+          url: `http://localhost:8089/article/tmp?articleUniqueId=${searchParams.get(
+            'id'
+          )}`,
         });
-        console.log(tmpArticle);
+        setTitle(tmpArticle.data.title);
+        setBody(tmpArticle.data.body);
       };
       getTmpArticle();
     }
