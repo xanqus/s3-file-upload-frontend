@@ -1,17 +1,38 @@
 import axios from 'axios';
-import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { Editor } from '@toast-ui/react-editor';
 import Prism from 'prismjs';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
+import { uuidv4 } from '../utils/utils';
 
 const Write = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [imageIdList, setImageIdList] = useState([]);
+  const [searchParams] = useSearchParams();
+
   const formData = new FormData();
   const toastRef = useRef();
+
+  useEffect(() => {
+    if (searchParams.get('id')) {
+      const getTmpArticle = async () => {
+        const tmpArticle = await axios({
+          method: 'GET',
+          url: `http://locahost:8089/article/tmp?id=${searchParams.get('id')}`,
+        });
+        console.log(tmpArticle);
+      };
+      getTmpArticle();
+    }
+  });
 
   return (
     <div className='flex flex-col max-w-5xl m-auto'>
@@ -60,7 +81,30 @@ const Write = () => {
         }}
       />
       <div className='flex'>
-        <button className='btn btn-outline btn-info ml-auto mr-8 mt-4 w-24'>
+        <button
+          className='btn btn-outline btn-info ml-auto mr-8 mt-4 w-24'
+          onClick={() => {
+            if (
+              title === '' ||
+              toastRef.current?.getInstance().getMarkdown() === ''
+            ) {
+              alert('제목 또는 내용이 비어있습니다.');
+              return;
+            }
+            formData.append('title', title);
+            formData.append(
+              'body',
+              toastRef.current?.getInstance().getMarkdown()
+            );
+            const uuid = uuidv4();
+            navigate(`/write?id=${uuid}`, { replace: true });
+            axios({
+              method: 'POST',
+              url: `http://localhost:8089/article/tmpSave?articleUniqueId=${uuid}`,
+              data: formData,
+            });
+          }}
+        >
           임시 저장
         </button>
         <button
