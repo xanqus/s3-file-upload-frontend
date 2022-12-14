@@ -28,7 +28,7 @@ const Home = () => {
       >
         글 작성
       </button>
-      <ArticleList articles={articles} />
+      <ArticleList articles={articles} setArticles={setArticles} />
     </div>
   );
 };

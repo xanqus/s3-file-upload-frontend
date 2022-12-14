@@ -1,7 +1,7 @@
 import React from 'react';
 import ArticleListItem from './ArticleListItem';
 
-const ArticleList = ({ articles }) => {
+const ArticleList = ({ articles, setArticles }) => {
   return (
     <div className='overflow-x-auto flex justify-center mt-16'>
       <table className='max-w-5xl table table-compact w-full'>
@@ -15,7 +15,11 @@ const ArticleList = ({ articles }) => {
         </thead>
         <tbody>
           {articles.map((article, index) => (
-            <ArticleListItem key={index} article={article} />
+            <ArticleListItem
+              key={index}
+              article={article}
+              setArticles={setArticles}
+            />
           ))}
         </tbody>
       </table>
