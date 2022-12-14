@@ -10,9 +10,11 @@ import { Editor } from '@toast-ui/react-editor';
 import Prism from 'prismjs';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import { uuidv4 } from '../utils/utils';
+import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
 
 const Write = () => {
   const navigate = useNavigate();
+  const [article, setArticle] = useState();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [imageIdList, setImageIdList] = useState([]);
@@ -32,10 +34,11 @@ const Write = () => {
         });
         setTitle(tmpArticle.data.title);
         setBody(tmpArticle.data.body);
+        setArticle(tmpArticle.data);
       };
       getTmpArticle();
     }
-  });
+  }, []);
 
   return (
     <div className='flex flex-col max-w-5xl m-auto'>
@@ -87,6 +90,21 @@ const Write = () => {
         <button
           className='btn btn-outline btn-info ml-auto mr-8 mt-4 w-24'
           onClick={() => {
+            formData.append('title', title);
+            formData.append(
+              'body',
+              toastRef.current?.getInstance().getMarkdown()
+            );
+            if (searchParams.get('id')) {
+              axios({
+                method: 'PATCH',
+                url: `http://localhost:8089/article/tmpSave?articleUniqueId=${searchParams.get(
+                  'id'
+                )}`,
+                data: formData,
+              });
+              return;
+            }
             if (
               title === '' ||
               toastRef.current?.getInstance().getMarkdown() === ''
@@ -113,6 +131,23 @@ const Write = () => {
         <button
           className='btn btn-outline btn-info mr-0 mt-4 w-24'
           onClick={() => {
+            if (searchParams.get('id')) {
+              // console.log(article);
+              formData.append('title', title);
+              formData.append(
+                'body',
+                toastRef.current?.getInstance().getMarkdown()
+              );
+              axios({
+                method: 'PATCH',
+                url: `http://localhost:8089/article/completeSave?articleUniqueId=${searchParams.get(
+                  'id'
+                )}`,
+                data: formData,
+              });
+              navigate('/');
+              return;
+            }
             if (
               toastRef.current?.getInstance().getMarkdown().length === 0 ||
               toastRef.current?.getInstance().getMarkdown() == null
