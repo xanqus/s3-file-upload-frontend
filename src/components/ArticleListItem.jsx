@@ -15,6 +15,16 @@ const ArticleListItem = ({ article }) => {
       <th>{id}</th>
       <td>{title}</td>
       <td>{formatDate(createDate)}</td>
+      <td
+        onClick={(e) => {
+          if (e.currentTarget !== e.target) {
+            e.stopPropagation();
+            alert('삭제');
+          }
+        }}
+      >
+        <div>❌</div>
+      </td>
     </tr>
   );
 };

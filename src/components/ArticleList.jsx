@@ -10,6 +10,7 @@ const ArticleList = ({ articles }) => {
             <th></th>
             <th>제목</th>
             <th>작성 일시</th>
+            <th>삭제</th>
           </tr>
         </thead>
         <tbody>
