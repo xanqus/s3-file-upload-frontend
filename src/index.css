@@ -13,3 +13,7 @@ input::placeholder {
 .search-input::placeholder {
   font-size: 1rem;
 }
+
+.login-input::placeholder {
+  font-size: 1rem;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Detail from './routes/Detail';
 import Home from './routes/Home';
+import Login from './routes/Login';
 import Write from './routes/Write';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/detail/:id' element={<Detail />} />
         <Route path='/write' element={<Write />} />
       </Routes>

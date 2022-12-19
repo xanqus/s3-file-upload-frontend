@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header>
       <div className='navbar bg-base-100'>
@@ -21,7 +23,14 @@ const Header = () => {
                 <img src='https://placeimg.com/80/80/people' />
               </div>
             </label> */}
-            <div className='cursor-pointer'>로그인</div>
+            <div
+              className='cursor-pointer'
+              onClick={() => {
+                navigate('/login');
+              }}
+            >
+              로그인
+            </div>
             {/* <ul
               tabIndex={0}
               className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52'
