@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Layout from '../layout/Layout';
 import { authenticatedState } from '../recoil/store';
@@ -8,6 +8,7 @@ import { BACKEND_URL } from '../utils';
 
 const Login = ({ to }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const setAuthenticated = useSetRecoilState(authenticatedState);
@@ -34,11 +35,7 @@ const Login = ({ to }) => {
         if (data.headers.authorization) {
           setAuthenticated(true);
           localStorage.setItem('login-token', data.headers.authorization);
-          if (to === undefined) {
-            navigate('/');
-          } else {
-            navigate(to);
-          }
+          if (location.pathname === '/login') return navigate('/');
           alert('로그인 성공');
         }
       } else {
