@@ -11,6 +11,7 @@ import Prism from 'prismjs';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
 import { uuidv4 } from '../utils/utils';
 import codeSyntaxHighlightPlugin from '@toast-ui/editor-plugin-code-syntax-highlight';
+import { BACKEND_URL } from '../utils';
 
 const Write = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Write = () => {
       const getTmpArticle = async () => {
         const tmpArticle = await axios({
           method: 'GET',
-          url: `http://localhost:8089/article/tmp?articleUniqueId=${searchParams.get(
+          url: `${BACKEND_URL}/article/tmp?articleUniqueId=${searchParams.get(
             'id'
           )}`,
         });
@@ -74,7 +75,7 @@ const Write = () => {
             formData.append('file', blob);
             const data = await axios({
               method: 'POST',
-              url: `http://localhost:8089/article/image`,
+              url: `${BACKEND_URL}/article/image`,
               data: formData,
             });
             setImageIdList((prev) => prev.concat(parseInt(data.data.id)));
@@ -98,7 +99,7 @@ const Write = () => {
             if (searchParams.get('id')) {
               axios({
                 method: 'PATCH',
-                url: `http://localhost:8089/article/tmpSave?articleUniqueId=${searchParams.get(
+                url: `${BACKEND_URL}/article/tmpSave?articleUniqueId=${searchParams.get(
                   'id'
                 )}`,
                 data: formData,
@@ -121,7 +122,7 @@ const Write = () => {
             navigate(`/write?id=${uuid}`, { replace: true });
             axios({
               method: 'POST',
-              url: `http://localhost:8089/article/tmpSave?articleUniqueId=${uuid}`,
+              url: `${BACKEND_URL}/article/tmpSave?articleUniqueId=${uuid}`,
               data: formData,
             });
           }}
@@ -140,7 +141,7 @@ const Write = () => {
               );
               axios({
                 method: 'PATCH',
-                url: `http://localhost:8089/article/completeSave?articleUniqueId=${searchParams.get(
+                url: `${BACKEND_URL}/article/completeSave?articleUniqueId=${searchParams.get(
                   'id'
                 )}`,
                 data: formData,
@@ -165,7 +166,7 @@ const Write = () => {
             const sendData = async () => {
               const data = await axios({
                 method: 'POST',
-                url: 'http://localhost:8089/article',
+                url: `${BACKEND_URL}/article`,
                 data: formData,
                 formData,
                 headers: {

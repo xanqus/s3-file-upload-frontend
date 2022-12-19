@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ArticleList from '../components/ArticleList';
+import { BACKEND_URL } from '../utils';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Home = () => {
     const getData = async () => {
       const data = await axios({
         method: 'GET',
-        url: 'http://localhost:8089/article',
+        url: `${BACKEND_URL}/article`,
       });
       setArticles(data.data);
     };

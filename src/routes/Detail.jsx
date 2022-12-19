@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Viewer } from '@toast-ui/react-editor';
 import Prism from 'prismjs';
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight-all.js';
+import { BACKEND_URL } from '../utils';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Detail = () => {
     const getData = async () => {
       const data = await axios({
         method: 'GET',
-        url: `http://localhost:8089/article/${id}`,
+        url: `${BACKEND_URL}/article/${id}`,
       });
       setArticle(data.data);
       setLoading(false);
