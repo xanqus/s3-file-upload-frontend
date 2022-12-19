@@ -2,10 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import Layout from '../layout/Layout';
 import { authenticatedState } from '../recoil/store';
 import { BACKEND_URL } from '../utils';
 
-const Login = () => {
+const Login = ({ to }) => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -33,7 +34,11 @@ const Login = () => {
         if (data.headers.authorization) {
           setAuthenticated(true);
           localStorage.setItem('login-token', data.headers.authorization);
-          navigate('/');
+          if (to === undefined) {
+            navigate('/');
+          } else {
+            navigate(to);
+          }
           alert('로그인 성공');
         }
       } else {
@@ -44,28 +49,30 @@ const Login = () => {
     login();
   };
   return (
-    <div className='ml-8 mt-8'>
-      <h1 className='text-3xl h-16'>Login</h1>
-      <form onSubmit={doLogin} className='flex flex-col'>
-        <input
-          type='text'
-          placeholder='ID'
-          className='login-input'
-          value={userId}
-          onChange={onChangeIdInput}
-        />
-        <input
-          type='password'
-          placeholder='password'
-          className='login-input'
-          value={userPassword}
-          onChange={onChangePasswordInput}
-        />
-        <button type='submit' className='w-32'>
-          완료
-        </button>
-      </form>
-    </div>
+    <Layout>
+      <div className='ml-8 mt-8'>
+        <h1 className='text-3xl h-16'>Login</h1>
+        <form onSubmit={doLogin} className='flex flex-col'>
+          <input
+            type='text'
+            placeholder='ID'
+            className='login-input'
+            value={userId}
+            onChange={onChangeIdInput}
+          />
+          <input
+            type='password'
+            placeholder='password'
+            className='login-input'
+            value={userPassword}
+            onChange={onChangePasswordInput}
+          />
+          <button type='submit' className='w-32'>
+            완료
+          </button>
+        </form>
+      </div>
+    </Layout>
   );
 };
 
