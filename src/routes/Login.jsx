@@ -6,7 +6,7 @@ import Layout from '../layout/Layout';
 import { authenticatedState } from '../recoil/store';
 import { BACKEND_URL } from '../utils';
 
-const Login = ({ to }) => {
+const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [userId, setUserId] = useState('');

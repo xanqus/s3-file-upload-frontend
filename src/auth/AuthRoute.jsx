@@ -5,10 +5,9 @@ import { authenticatedState } from '../recoil/store';
 import Login from '../routes/Login';
 
 const AuthRoute = () => {
-  const location = useLocation();
   const authenticated = useRecoilValue(authenticatedState);
 
-  return authenticated ? <Outlet /> : <Login to={location.pathname} />;
+  return authenticated ? <Outlet /> : <Login />;
 };
 
 export default AuthRoute;
