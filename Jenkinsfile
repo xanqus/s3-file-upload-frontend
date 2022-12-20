@@ -9,7 +9,7 @@ pipeline {
                 """
             }
         }
-        stage('Build') {
+        stage('React Build') {
             agent {
                 docker {
                     image 'node:18.12.1-alpine'
@@ -18,6 +18,14 @@ pipeline {
             steps {
                 sh 'npm install'
                 sh 'CI=false npm run build'
+            }
+        }
+
+        stage('Docker build') {
+            agent any
+            steps {
+                sh 'cp /root/config/nginx/nginx.conf nginx.conf'
+                sh 'docker build -t sbs-community-frontend:latest .'
             }
         }
 
