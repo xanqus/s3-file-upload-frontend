@@ -6,7 +6,7 @@ pipeline {
             steps{
                 sh """
                 echo connect test
-                echo github webhook test
+                echo github webhook test!
                 """
             }
         }
