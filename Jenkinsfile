@@ -29,5 +29,16 @@ pipeline {
             }
         }
 
+         stage('Docker run') {
+            agent any
+            steps {
+                sh 'docker ps -f sbs-community-frontend -q | xargs --no-run-if-empty docker container stop'
+                sh 'docker container ls -a -f name=sbs-community-frontend -q | xargs -r docker container rm -f'
+                sh 'docker images --no-trunc --all --quiet --filter="dangling=true" | xargs --no-run-if-empty docker rmi'
+                sh 'docker run -d --name sbs-community-frontend-dev -p 8090:80 --restart unless-stopped sbs-community-frontend:latest'
+            }
+        }
+
+
     }
 }
