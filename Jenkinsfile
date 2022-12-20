@@ -9,5 +9,17 @@ pipeline {
                 """
             }
         }
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18.12.1-alpine'
+                }
+            }
+            steps {
+                sh 'npm install'
+                sh 'CI=false npm run build'
+            }
+        }
+
     }
 }
